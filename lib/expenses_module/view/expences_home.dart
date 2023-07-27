@@ -15,13 +15,13 @@ class HomeScreen extends GetView<ExpenseController> {
        Key? key}) : super(key: key);
 
 
-  Future<List<ExpenseTableData>> getExpenseList() async {
-    return await controller.database!.getAllData();
-  }
+  // Future<List<ExpenseTableData>> getExpenseList() async {
+  //   return await controller.database!.getAllData();
+  // }
 
-  getDatabase() {
-    return controller.database;
-  }
+  // getDatabase() {
+  //   return controller.database;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,32 @@ class HomeScreen extends GetView<ExpenseController> {
           Get.toNamed(AppRoutes.addExpenseScreen);
         },
       ),
-      body: const SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Add Expenses",
-                style: TextStyle(
-                fontSize: 16,
-              ),)
-            ],
-          )),
+      body: SafeArea(
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("Add Expenses",
+              style: TextStyle(
+              fontSize: 16,
+            ),),
+            GetBuilder(
+              init: controller,
+              builder: (context) {
+                return Expanded(
+                  child: FutureBuilder<List<ExpenseTableData>>( future: controller.oldExpenses(), builder: (context,snapShot){
+                    if(snapShot.hasData){
+                      return ListView.builder(itemCount: snapShot.data!.length, itemBuilder: (context , index){return Text("${snapShot.data![index].title}");});
+                    }
+                    return CircularProgressIndicator();
+
+                  }),
+                );
+              }
+            )
+          ],
+        ),
+      ),
     );
   }
 

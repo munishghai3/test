@@ -1,6 +1,7 @@
 class AppRoutes{
-
-  static const homeScreen='/homeScreen';
+  static const homeScreen='/';
   static const addExpenseScreen='/addExpenseScreen';
-
 }
+
+
+
