@@ -28,13 +28,13 @@ class AppDatabase extends _$AppDatabase {
   Future<List<ExpenseTableData>> getAllData() =>
       select(expenseTable).get();
 
-  Future insertMedicine(ExpenseTableCompanion record) =>
+  Future insertData(ExpenseTableCompanion record) =>
       into(expenseTable).insert(record);
 
-  Future updateMedicine(ExpenseTableData record) =>
+  Future updateData(ExpenseTableData record) =>
       update(expenseTable).replace(record);
 
-  Future deleteMedicine(ExpenseTableData record) =>
+  Future deleteData(ExpenseTableData record) =>
       delete(expenseTable).delete(record);
 
 }

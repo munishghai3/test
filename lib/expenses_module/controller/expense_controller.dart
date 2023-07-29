@@ -64,7 +64,7 @@ class ExpenseController extends GetxController with GetTickerProviderStateMixin{
         title = titleController.text;
         amount = amountController.text;
         categoryId = await database!
-            .insertMedicine(
+            .insertData(
               ExpenseTableCompanion.insert(
                 title: title,
                 amount: amount,
