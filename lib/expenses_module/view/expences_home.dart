@@ -48,7 +48,7 @@ class HomeScreen extends GetView<ExpenseHomeController> {
         margin: EdgeInsets.symmetric(vertical: 20),
         child: PieChart(
           PieChartData(
-            // sections: controller.chartSections(controller.chartData)
+            sections: controller.chartSections(controller.expenseData)
           ),
           swapAnimationDuration: Duration(milliseconds: 150), // Optional
           swapAnimationCurve: Curves.linear, // Optional
@@ -67,7 +67,7 @@ class HomeScreen extends GetView<ExpenseHomeController> {
                 return ListView.builder(
                     itemCount: snapShot.data!.length,
                     itemBuilder: (context, index) {
-                      return Text(snapShot.data![index].title).paddingSymmetric(horizontal: 20);
+                      return Text(snapShot.data![index].title + snapShot.data![index].amount).paddingSymmetric(horizontal: 20);
                     });
               }
               return SizedBox(

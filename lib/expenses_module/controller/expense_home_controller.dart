@@ -1,7 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:test_project/database/drift_database.dart';
+import 'package:test_project/expenses_module/controller/add_expense_controller.dart';
+
+import '../model/expense_model.dart';
 
 class ExpenseHomeController extends GetxController {
   int touchedIndex = -1;
@@ -29,21 +33,30 @@ class ExpenseHomeController extends GetxController {
   @override
   void onReady() async {
     expenseData = await database!.getAllData();
-    expenseData.forEach((element) {
-
-    });
+    expenseData.forEach((element) {});
     super.onReady();
   }
 
+  OptionItem getCategoryFromId(String id) {
+    return dropListModel.listOptionItems
+        .where((element) => element.id == int.parse(id))
+        .first;
+  }
+
   List<PieChartSectionData> chartSections(List<ExpenseTableData> sectors) {
+    Map<String, double> pieData = {};
+    for (var element in sectors) {
+      pieData[element.category] =
+          ((pieData[element.category] ?? 0.0) + double.parse(element.amount));
+    }
     final List<PieChartSectionData> list = [];
-    for (int i = 0; i < sectors.length; i++) {
+    for (int i = 0; i < pieData.length; i++) {
       const double radius = 40.0;
       final data = PieChartSectionData(
         color: colors[i],
-        value: int.parse(sectors[i].amount).toDouble(),
+        value: pieData.values.elementAt(i),
         radius: radius,
-        title: '',
+        title: "${getCategoryFromId(pieData.keys.elementAt(i)).title} ${pieData.values.elementAt(i)}",
       );
       list.add(data);
     }
