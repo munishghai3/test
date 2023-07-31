@@ -29,19 +29,28 @@ class ExpenseHomeController extends GetxController {
   @override
   void onReady() async {
     expenseData = await database!.getAllData();
-    expenseData.forEach((element) {
-
-    });
+    for (var element in expenseData) {
+      var totalAmount = 0.0;
+      for (var value in expenseData) {
+        if(element.category == value.category){
+          totalAmount += double.parse(element.amount);
+        }
+      }
+      chartData.add(
+        ChartDataModel(title: " ", category: element.category, amount: totalAmount)
+      );
+      update();
+    }
     super.onReady();
   }
 
-  List<PieChartSectionData> chartSections(List<ExpenseTableData> sectors) {
+  List<PieChartSectionData> chartSections(List<ChartDataModel> sectors) {
     final List<PieChartSectionData> list = [];
     for (int i = 0; i < sectors.length; i++) {
       const double radius = 40.0;
       final data = PieChartSectionData(
         color: colors[i],
-        value: int.parse(sectors[i].amount).toDouble(),
+        value: sectors[i].amount,
         radius: radius,
         title: '',
       );
@@ -67,11 +76,9 @@ class ChartDataModel {
   String title;
   String category;
   double amount;
-  Color color;
 
   ChartDataModel(
       {required this.title,
       required this.category,
-      required this.amount,
-      required this.color});
+      required this.amount,});
 }

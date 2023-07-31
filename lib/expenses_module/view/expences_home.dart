@@ -48,7 +48,7 @@ class HomeScreen extends GetView<ExpenseHomeController> {
         margin: EdgeInsets.symmetric(vertical: 20),
         child: PieChart(
           PieChartData(
-            // sections: controller.chartSections(controller.chartData)
+            sections: controller.chartSections(controller.chartData)
           ),
           swapAnimationDuration: Duration(milliseconds: 150), // Optional
           swapAnimationCurve: Curves.linear, // Optional
