@@ -85,7 +85,7 @@ class $ExpenseTableTable extends ExpenseTable
       amount: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}amount'])!,
       category: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}category'])!,
     );
   }
 
@@ -100,7 +100,7 @@ class ExpenseTableData extends DataClass
   final int id;
   final String title;
   final String amount;
-  final String category;
+  final int category;
   const ExpenseTableData(
       {required this.id,
       required this.title,
@@ -112,7 +112,7 @@ class ExpenseTableData extends DataClass
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
     map['amount'] = Variable<String>(amount);
-    map['category'] = Variable<String>(category);
+    map['category'] = Variable<int>(category);
     return map;
   }
 
@@ -132,7 +132,7 @@ class ExpenseTableData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       amount: serializer.fromJson<String>(json['amount']),
-      category: serializer.fromJson<String>(json['category']),
+      category: serializer.fromJson<int>(json['category']),
     );
   }
   @override
@@ -142,12 +142,12 @@ class ExpenseTableData extends DataClass
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'amount': serializer.toJson<String>(amount),
-      'category': serializer.toJson<String>(category),
+      'category': serializer.toJson<int>(category),
     };
   }
 
   ExpenseTableData copyWith(
-          {int? id, String? title, String? amount, String? category}) =>
+          {int? id, String? title, String? amount, int? category}) =>
       ExpenseTableData(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -181,7 +181,7 @@ class ExpenseTableCompanion extends UpdateCompanion<ExpenseTableData> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> amount;
-  final Value<String> category;
+  final Value<int> category;
   const ExpenseTableCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -192,7 +192,7 @@ class ExpenseTableCompanion extends UpdateCompanion<ExpenseTableData> {
     this.id = const Value.absent(),
     required String title,
     required String amount,
-    required String category,
+    required int category,
   })  : title = Value(title),
         amount = Value(amount),
         category = Value(category);
@@ -214,7 +214,7 @@ class ExpenseTableCompanion extends UpdateCompanion<ExpenseTableData> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? amount,
-      Value<String>? category}) {
+      Value<int>? category}) {
     return ExpenseTableCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -236,7 +236,7 @@ class ExpenseTableCompanion extends UpdateCompanion<ExpenseTableData> {
       map['amount'] = Variable<String>(amount.value);
     }
     if (category.present) {
-      map['category'] = Variable<String>(category.value);
+      map['category'] = Variable<int>(category.value);
     }
     return map;
   }

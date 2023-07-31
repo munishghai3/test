@@ -31,8 +31,6 @@ class ExpenseHomeController extends GetxController {
     expenseData = await database!.getAllData();
     expenseData.forEach((element) {
 
-      for(element.category)
-
     });
     super.onReady();
   }

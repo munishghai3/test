@@ -134,7 +134,7 @@ class AddExpensesScreen extends GetView<AddExpenseController> {
                               .reverse();
                           controller.category =
                               optionItemSelected.id;
-                          debugPrint(controller.category);
+                          debugPrint(controller.category.toString());
                           controller.update();
                         },
                         child: Container(
