@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,23 +13,28 @@ class AddExpensesScreen extends GetView<AddExpenseController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: controller.formKey,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _titleTextField(),
-                _amountTextField(),
-                _categoryDropDown(),
-                _addCategory(),
-                _submitButton(),
-              ]),
-        ),
-      ),
+    return GetBuilder<AddExpenseController>(
+      builder: (context) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: Form(
+            key: controller.formKey,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _titleTextField(),
+                    _amountTextField(),
+                    _categoryDropDown(),
+                    _addCategory(),
+                    _submitButton(),
+                  ]),
+            ),
+          ),
+        );
+      }
     );
   }
 
@@ -51,9 +58,11 @@ class AddExpensesScreen extends GetView<AddExpenseController> {
     textInputAction: TextInputAction.next,
     focusNode: controller.amountNode,
     keyboardType: TextInputType.number,
+    maxLength: 6,
     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
     decoration: const InputDecoration(
       hintText: "Enter Amount",
+      counterText: "",
       label: Text("Amount"),
     ),
     validator: (input) => (controller.amount.isEmpty)
@@ -80,7 +89,7 @@ class AddExpensesScreen extends GetView<AddExpenseController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${optionItemSelected.title}",
+                controller.optionItemSelected.title,
                 style: const TextStyle(
                   fontSize: 16,
                 ),
@@ -126,14 +135,14 @@ class AddExpensesScreen extends GetView<AddExpenseController> {
                         onTap: () {
                           FocusManager.instance.primaryFocus
                               ?.unfocus();
-                          var optionItemSelected =
+                          controller.optionItemSelected =
                           dropListModel
                               .listOptionItems[index];
                           controller.isShow = false;
                           controller.expandController
                               .reverse();
                           controller.category =
-                              optionItemSelected.id;
+                              controller.optionItemSelected.id;
                           debugPrint(controller.category.toString());
                           controller.update();
                         },

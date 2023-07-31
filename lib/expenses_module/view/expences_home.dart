@@ -83,7 +83,7 @@ class HomeScreen extends GetView<ExpenseHomeController> {
           color: Colors.black,
         ),
         onPressed: () {
-          Get.offAllNamed(AppRoutes.addExpenseScreen);
+          Get.toNamed(AppRoutes.addExpenseScreen);
         },
       );
 }

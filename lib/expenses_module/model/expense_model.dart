@@ -14,7 +14,6 @@ DropListModel dropListModel = DropListModel([
   OptionItem(id: 4, title: "Shopping"),
 ]);
 
-OptionItem optionItemSelected = OptionItem(id: 0, title: "Select Category");
 
 class DropListModel {
   DropListModel(this.listOptionItems);

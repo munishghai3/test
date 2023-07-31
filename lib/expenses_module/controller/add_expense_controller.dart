@@ -25,8 +25,10 @@ class AddExpenseController extends GetxController with GetTickerProviderStateMix
   bool isShow = false;
   late AnimationController expandController;
   late Animation<double> animation;
+   OptionItem optionItemSelected = OptionItem(id: 0, title: "Select Category");
 
-  String title = "";
+
+   String title = "";
 
   String amount = "";
 
@@ -85,7 +87,7 @@ class AddExpenseController extends GetxController with GetTickerProviderStateMix
               ExpenseTableCompanion.insert(
                 title: title,
                 amount: amount,
-                category: category!,
+                category: category.toString(),
               ),
             );
            Get.offAllNamed(AppRoutes.homeScreen);
