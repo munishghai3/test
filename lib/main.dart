@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test_project/expenses_module/view/expences_home.dart';
 import 'package:test_project/routes/app_pages.dart';
 
 void main() {

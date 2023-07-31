@@ -1,20 +1,23 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test_project/database/drift_database.dart';
-import 'package:test_project/expenses_module/view/expences_home.dart';
+import 'package:test_project/expenses_module/model/expense_model.dart';
+import 'package:test_project/routes/app_routes.dart';
 import 'package:test_project/utils/common_utility.dart';
 
-import '../model/expense_model.dart';
 
-class ExpenseController extends GetxController with GetTickerProviderStateMixin{
+class AddExpenseController extends GetxController with GetTickerProviderStateMixin{
    final formKey = new GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  TextEditingController addCategoryController = TextEditingController();
 
   FocusNode titleNode = FocusNode();
   FocusNode amountNode = FocusNode();
   FocusNode focusNode = FocusNode();
+
+
 
   AppDatabase? database;
   var categoryId;
@@ -27,7 +30,7 @@ class ExpenseController extends GetxController with GetTickerProviderStateMixin{
 
   String amount = "";
 
-  String? category = "";
+  int? category = 0;
 
   @override
   void onInit() {
@@ -58,9 +61,23 @@ class ExpenseController extends GetxController with GetTickerProviderStateMixin{
     }
   }
 
+  addCategory(){
+    if(dropListModel.listOptionItems.length < 10){
+      dropListModel.listOptionItems.add(OptionItem(
+          id: dropListModel.listOptionItems.last.id + 1,
+          title: addCategoryController.text.trim()));
+      Get.back();
+      addCategoryController.clear();
+      update();
+      Utility.toast(Get.context!, "Category Added");
+    }else{
+      Utility.toast(Get.context!, "Cannot add more than 10 categories");
+    }
+  }
+
   submit() async {
     if (formKey.currentState!.validate()) {
-      if (category != "") {
+      if ((category ?? 0) > 0) {
         title = titleController.text;
         amount = amountController.text;
         categoryId = await database!
@@ -71,11 +88,11 @@ class ExpenseController extends GetxController with GetTickerProviderStateMixin{
                 category: category!,
               ),
             );
-           Get.back();
+           Get.offAllNamed(AppRoutes.homeScreen);
         debugPrint("data inserted ${categoryId.toString()}");
         update();
       } else {
-        Utility().toast(Get.context!, "Select something");
+        Utility.toast(Get.context!, "Select something");
       }
     }
   }
@@ -94,11 +111,6 @@ class ExpenseController extends GetxController with GetTickerProviderStateMixin{
     expences.add(expense);
   }
 
-// TODO: get old expenses
-  Future<List<ExpenseTableData>> oldExpenses() async{
-    List<ExpenseTableData> data = await database!.getAllData();
-    return data;
-  }
 
 //TODO: validation for add expence
   void validation() {}

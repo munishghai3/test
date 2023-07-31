@@ -5,17 +5,16 @@ class ExpenseModel{
   double amount;
 
   ExpenseModel({required this.title,required this.category, required this.amount});
-
 }
 
-
 DropListModel dropListModel = DropListModel([
-  OptionItem(id: "1", title: "Food"),
-  OptionItem(id: "2", title: "Transportation"),
-  OptionItem(id: "3", title: "Utilities"),
-  OptionItem(id: "4", title: "Shopping"),
+  OptionItem(id: 1, title: "Food"),
+  OptionItem(id: 2, title: "Transportation"),
+  OptionItem(id: 3, title: "Utilities"),
+  OptionItem(id: 4, title: "Shopping"),
 ]);
-OptionItem optionItemSelected = OptionItem(id: "", title: "Select Category");
+
+OptionItem optionItemSelected = OptionItem(id: 0, title: "Select Category");
 
 class DropListModel {
   DropListModel(this.listOptionItems);
@@ -24,7 +23,7 @@ class DropListModel {
 }
 
 class OptionItem {
-  final String id;
+  final int id;
   final String title;
 
   OptionItem({required this.id, required this.title});
